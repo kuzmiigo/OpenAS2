@@ -7,7 +7,7 @@
 	<partnerships classname="org.openas2.partner.XMLPartnershipFactory"
 		filename="%home%\partnerships.xml"/>
 		
-	<!- use loggers only if you are using the OpenAS2 loggers.
+	<!-- use loggers only if you are using the OpenAS2 loggers.
 	if using other logging packages remove this node and following
 	the configuration guidelines for those logging packages.
 	--> 
@@ -75,6 +75,7 @@
 			outboxdir="%home%\toOpenAS2B"
 			errordir="%home%\toOpenAS2B\error"			
 			interval="5"			
+			filecheckdelay="5"
 			defaults="sender.as2_id=OpenAS2A, receiver.as2_id=OpenAS2B"			
 			sendFilename="true"
 			mimetype="application/EDI-X12"/>

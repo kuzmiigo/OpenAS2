@@ -36,6 +36,7 @@ public abstract class DirectoryPollingModule extends PollingModule {
     public static final String PARAM_DELIMITERS = "delimiters";
     public static final String PARAM_DEFAULTS = "defaults";
     public static final String PARAM_MIMETYPE = "mimetype";   
+    public static final String PARAM_FILE_CHECK_DELAY = "filecheckdelay";
     private Map trackedFiles;
 
 	private Log logger = LogFactory.getLog(DirectoryPollingModule.class.getSimpleName());
@@ -75,6 +76,14 @@ public abstract class DirectoryPollingModule extends PollingModule {
 
         // iterator through each entry, and start tracking new files
         if (files.length > 0) {
+            // Wait the given number of seconds before checking files
+            // to prevent processing of files still opened by other programs.
+            try {
+                Thread.sleep(getParameterInt(PARAM_FILE_CHECK_DELAY, false) * 1000);
+            } catch (InterruptedException e) {
+                // Just continue if interrupted
+            }
+
             for (int i = 0; i < files.length; i++) {
                 File currentFile = files[i];
 
