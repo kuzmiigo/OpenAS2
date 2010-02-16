@@ -137,8 +137,7 @@ public class AsynchMDNSenderModule extends HttpSenderModule{
 						+ "] OK "+msg.getLoggingText());
 
 				//		    log & store mdn into backup folder. 
-				((Session)options.get("session")).getProcessor().handle(StorageModule.DO_STOREMDN,
-						msg, null);
+				getSession().getProcessor().handle(StorageModule.DO_STOREMDN, msg, null);
 
 			} finally {
 				conn.disconnect();
