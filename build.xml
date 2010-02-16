@@ -1,0 +1,98 @@
+<project name="openas2-lib" default="all" basedir=".">
+
+<!-- ========== Source and Target Properties ============================== -->
+	
+	<!-- Java source directory -->
+	<property name="src.dir" location="${basedir}/src"/>
+	
+	<!-- Jar library directory -->
+	<property name="lib.dir" location="${basedir}/lib"/>
+	
+	<!-- Target for all build results -->
+	<property name="target.dir" location="${basedir}/target"/>
+	
+	<!-- Java class output directory -->
+	<property name="classes.dir" location="${target.dir}/classes"/>
+	
+	<!-- Jar file -->
+	<property name="jar.file" value="${target.dir}/openas2.jar"/>
+
+<!-- ========== Java Compiler Properties ================================== -->
+
+    <!--  Should Java compilations set the 'debug' compiler option?  -->
+    <property name="compile.debug" value="true"/>
+
+    <!--  Should Java compilations set the 'deprecation' compiler option?  -->
+    <property name="compile.deprecation" value="false"/>
+
+    <!--  Should Java compilations set the 'optimize' compiler option?  -->
+    <property name="compile.optimize" value="true"/>
+
+<!-- ========== Classpaths ================================================ -->
+	
+	<path id="component.classpath">
+		<!-- pathelement path="${lib.dir}/activation.jar"/ -->
+		<pathelement path="${lib.dir}/mail.jar"/>
+		<pathelement path="${lib.dir}/bcmail-jdk14-125.jar"/>
+		<pathelement path="${lib.dir}/bcprov-jdk14-125.jar"/>
+		<pathelement path="${lib.dir}/commons-lang-2.4.jar"/>
+		<pathelement path="${lib.dir}/commons-logging-1.1.1.jar"/>
+		<pathelement path="${lib.dir}/dom4j-1.5-rc1.jar"/>
+	</path>
+	<property name="component.classpath" refid="component.classpath"/>
+	
+<!-- ========== Targets =================================================== -->
+	
+	<!-- Create all target directories -->
+	<target name="init">
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+	<!-- Delete all target directories -->
+	<target name="clean" >
+	    <delete dir="${target.dir}"/>
+	</target>
+	
+	<!-- Display a summary of the current configuration -->
+	<target name="show-properties">
+        <echo>
+        General Properties:            
+            target.dir = ${target.dir}
+            src.dir = ${src.dir}
+            jar.file = ${jar.file}
+
+        Compile Properties:
+            compile.debug = ${compile.debug}
+            compile.deprecation = ${compile.deprecation}
+            compile.optimize = ${compile.optimize}                                  
+            component.classpath = ${component.classpath}
+            java.version = ${java.version}
+            ant.java.version = ${ant.java.version}
+        	
+        </echo>
+    </target>
+
+	<!-- Compile the java source -->
+	<target name="compile" depends="init">
+        <javac srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            includes="**/*.java"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            source="${ant.java.version}" >
+            <classpath refid="component.classpath" />
+        </javac>
+    </target>
+	
+	<!-- Create the jar file -->
+	<target name="jar" depends="compile" >
+        <jar destfile="${jar.file}" 
+        	basedir="${classes.dir}" />
+    </target>
+
+	<!-- Clean, Compile, Jar -->
+	<target name="all" depends="clean,jar"/>
+
+</project>
