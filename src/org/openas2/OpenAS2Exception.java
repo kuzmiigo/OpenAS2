@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openas2.app.OpenAS2Server;
+import org.openas2.logging.DefaultFormatter;
  ;
 
 
@@ -59,5 +60,6 @@ public class OpenAS2Exception extends Exception {
     }
 
     protected void log(boolean terminated) {
+    	logger.warn(new DefaultFormatter().format(this, terminated));
     }
 }

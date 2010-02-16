@@ -179,7 +179,7 @@ public class AS2SenderModule extends HttpSenderModule {
             resend(msg, hre, retries);
         } catch (IOException ioe) { // Resend if a network error occurs during
 									// transmission
-
+        	logger.error("error io " + ioe.getMessage());
             WrappedException wioe = new WrappedException(ioe);
             wioe.addSource(OpenAS2Exception.SOURCE_MESSAGE, msg);
             wioe.terminate();
@@ -255,7 +255,7 @@ public class AS2SenderModule extends HttpSenderModule {
             	//file was sent completely but the returned mic was not matched,  
             	// don't know it needs or needs not to be resent ? it's depended on what ! 
             	// anyway, just log the warning message here.  
-            logger.info("mic is not matched, original mic: " + originalmic + " return mic: "+ returnmic+msg.getLoggingText()); 
+            logger.warn("mic is not matched, original mic: " + originalmic + " return mic: "+ returnmic+msg.getLoggingText()); 
             } 
             else { 
             logger.info("mic is matched, mic: " + returnmic+msg.getLoggingText()); 
@@ -308,9 +308,9 @@ public class AS2SenderModule extends HttpSenderModule {
 
     private void resend(Message msg, OpenAS2Exception cause, int tries) throws OpenAS2Exception {
     	if (resend (SenderModule.DO_SEND, msg, cause, tries)) return;
-        // Oh dear, we've run out of reetries, do something interesting.
+        // Oh dear, we've run out of retries, do something interesting.
     	// TODO create a fake failure MDN
-    	logger.info("Message abandoned"+msg.getLoggingText());
+    	logger.error("Message abandoned"+msg.getLoggingText());
     }
 
     // Returns a MimeBodyPart or MimeMultipart object
