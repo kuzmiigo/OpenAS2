@@ -151,7 +151,7 @@ public abstract class DirectoryPollingModule extends PollingModule {
 
     protected void processFile(File file) throws OpenAS2Exception {
     	
-        logger.info("processing " + file.getAbsolutePath());
+        logger.info("processing " + file.getAbsolutePath() + " (" + file.length() + " bytes)");
 
         Message msg = createMessage();
         msg.setAttribute(FileAttribute.MA_FILEPATH, file.getAbsolutePath());
